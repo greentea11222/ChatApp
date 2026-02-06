@@ -21,7 +21,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests(auth -> auth
-				.requestMatches("/register", "/h2-console/**").permitAll() //会員登録とDB確認画面は全員
+				.requestMatchers("/register", "/h2-console/**").permitAll() //会員登録とDB確認画面は全員
 				.anyRequest().authenticated() //それ以外のチャット画面などはログイン必須
 			)
 			.formLogin(login -> login
@@ -29,8 +29,15 @@ public class SecurityConfig {
 				.defaultSuccessUrl("/chat", true) //ログイン成功時の移動先
 			)
 			.logout(logout -> logout
-			)
-			
+				.logoutSuccessUrl("/login") //ログアウトしたらログイン画面へ
+				.permitAll()
+			);
+		
+		//H2コンソールを表示するための特別設定
+		http.csrf(csrf -> csrf.disable());
+		http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
+		
+		return http.build();
 	}
 	
 }
