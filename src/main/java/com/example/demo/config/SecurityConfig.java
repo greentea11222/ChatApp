@@ -20,13 +20,15 @@ public class SecurityConfig {
 	
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+			//どのURLを誰に許可するのか
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/register", "/h2-console/**").permitAll() //会員登録とDB確認画面は全員
 				.anyRequest().authenticated() //それ以外のチャット画面などはログイン必須
 			)
+			//ログインの仕組み
 			.formLogin(login -> login
-				.loginPage("/login") //自作のログインページを使う
-				.defaultSuccessUrl("/chat", true) //ログイン成功時の移動先
+				.loginPage("/login") //ログイン時に自作のログインページを使う
+				.defaultSuccessUrl("/chat", true) //ログイン成功時にチャット画面に飛ばす
 			)
 			.logout(logout -> logout
 				.logoutSuccessUrl("/login") //ログアウトしたらログイン画面へ
