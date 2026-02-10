@@ -22,7 +22,10 @@ public class UserService implements UserDetailsService {
 	
 	//会員登録のメソッド
 		public void registerUser(User user) {
-			//メモ：ここにユーザー名が重複しないかチェックを入れる
+			//ユーザー名がすでに登録されている場合は例外
+			if(userRepository.findByName(user.getName()).isPresent()) {
+				throw new RuntimeException("このユーザー名はすでに使用されています");
+			}
 			
 			//パスワードを暗号化
 			String encodedPassword = passwordEncoder.encode(user.getPassword());

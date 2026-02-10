@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -33,10 +34,25 @@ public class LoginController {
 	
 	//会員登録画面から送られてきたデータを保存する
 	@PostMapping("/register")
-	public String register(User user) {
-		//サービスに処理を任せる
-		userService.registerUser(user);
+	//引数のModel（UI Model)はControllerからHTML（画面）へ一時的にデータを渡すための箱。
+	public String register(User user, Model model) {
+		//サービスでユーザー情報をDBに保存
+		try {
+			userService.registerUser(user);
+			//リダイレクト：URLにアクセスし直すため、Model内のデータは消える。
+			//処理が正常に終了した場合に使う（データの二重送信を防ぐため）
+			return "redirect:/login"; //登録が成功したらログイン画面に遷移
+			
+		//ユーザー名が重複していたらエラーメッセージ
+		} catch(RuntimeException e) {
+			//エラーメッセージをModelに詰めて、登録画面を表示し直す
+			//addAttribute("名前", 値）：HTML側で使う名前とデータを紐付けて箱に入れる
+			model.addAttribute("errorMessage", e.getMessage());
+			//フォワード：Modelに入れたデータをHTMLに渡せるので、入力エラーが起きた時などに使う（エラー内容などを画面に表示するため）
+			return "register";	//失敗時は登録画面を再表示
+		}
 		
-		return "redirect:/login"; //登録が終わったらログイン画面に遷移
+		
+		
 	}
 }
