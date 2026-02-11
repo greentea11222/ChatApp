@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -35,7 +36,15 @@ public class LoginController {
 	//会員登録画面から送られてきたデータを保存する
 	@PostMapping("/register")
 	//引数のModel（UI Model)はControllerからHTML（画面）へ一時的にデータを渡すための箱。
-	public String register(User user, Model model) {
+	public String register(@Valid User user, BindingResult result, Model model) {
+		
+		//アノテーションによる入力チェック
+		if (result.hasErrors()) {
+			//エラーがある場合は登録画面に戻る
+			//エラーメッセージは自動的にBindingResultからHTMLへ引き継がれる
+			return "register";
+		}
+		
 		//サービスでユーザー情報をDBに保存
 		try {
 			userService.registerUser(user);
@@ -51,8 +60,5 @@ public class LoginController {
 			//フォワード：Modelに入れたデータをHTMLに渡せるので、入力エラーが起きた時などに使う（エラー内容などを画面に表示するため）
 			return "register";	//失敗時は登録画面を再表示
 		}
-		
-		
-		
 	}
 }

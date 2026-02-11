@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+import org.hibernate.annotations.processing.Pattern;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,11 @@ public class User implements UserDetails{
 	
 	//パスワードは空不可
 	@Column(nullable = false)
+	@Size(min = 8, message = "パスワードは8文字以上で入力してください")
+	@Pattern(
+		regexp = "^(?=.*[a-zA-Z])(?=.*\\d).+$",
+		message = "パスワードには英字と数字の両方を含めてください"
+	)
 	private String password;
 	
 	//ロール（権限）：USERかADMIN
@@ -44,7 +50,7 @@ public class User implements UserDetails{
 	//1対多のリレーション
 	@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ChatMessage> chats;
-	
+
 	/*
 	 * 以下、UserDetailsインターフェースのオーバーライド
 	 * userDetailsのメソッドのうち3つはdefaultがついているためオーバーライド不要
