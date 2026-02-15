@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import jakarta.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +31,8 @@ public class LoginController {
 	
 	//会員登録画面を表示
 	@GetMapping("/register")
-	public String showRegisterPage() {
+	public String showRegisterPage(Model model) {
+		model.addAttribute("user", new User());
 		return "register";
 	}
 	

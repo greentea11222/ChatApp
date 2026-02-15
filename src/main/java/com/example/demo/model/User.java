@@ -12,8 +12,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-import org.hibernate.annotations.processing.Pattern;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -69,6 +70,4 @@ public class User implements UserDetails{
 	public String getUsername() {
 		return this.name;
 	}
-	
-	
 }
