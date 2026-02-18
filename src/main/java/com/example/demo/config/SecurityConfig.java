@@ -18,11 +18,12 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 			//どのURLを誰に許可するのか
 			.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/register", "/h2-console/**").permitAll() //会員登録とDB確認画面は全員
+				.requestMatchers("/register", "/login", "/h2-console/**").permitAll() //会員登録とDB確認画面は全員
 				.anyRequest().authenticated() //それ以外のチャット画面などはログイン必須
 			)
 			//ログインの仕組み
@@ -41,5 +42,4 @@ public class SecurityConfig {
 		
 		return http.build();
 	}
-	
 }

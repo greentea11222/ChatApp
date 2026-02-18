@@ -6,10 +6,10 @@
 </head>
 <body>
 	<h2>会員登録</h2>
-	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
+	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
 	
 	<!--th:object="${user}"で、Controllerから渡されたUserオブジェクトを使えるようになる-->
-	<form th:action="@`/register}" th:object="${user}" method="post"> <div> 
+	<form th:action="@{/register}" th:object="${user}" method="post"> <div> 
 			<label>ユーザー名：</label>
 			<input type="text" th:field="*{name}" /> <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
 		</div>
