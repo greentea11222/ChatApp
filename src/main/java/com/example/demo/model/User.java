@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -26,6 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity //データベースのテーブルとして扱う宣言
+@Table(name = "users") //テーブル名をusersとして保存する
 public class User implements UserDetails{
 	@Id //主キーに設定
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //IDの自動採番
