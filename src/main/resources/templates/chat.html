@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>リアルタイムチャット</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socketjs-client/1.5.1/socketjs.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp/2.3.3/stomp.min.js"></script>
+		</head>
+	<body>
+		<h2>チャットルーム</h2>
+		<div id="messages"
+			style="border:1px solid #ccc; height:300px; 
+				overflow-y:scroll; margin-bottom:10px; padding:10px;">
+			</div>
+		<input type="text" id="messageInput" placeholder="メッセージを入力...">
+		<button onclick="sendMessage()">送信</button>
+		
+		<script>
+			var stompClient = null;
+			
+			//ページが開いたら自動で接続
+			
+		</script>
+	</body>
+</html>
