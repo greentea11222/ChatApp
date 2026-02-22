@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>リアルタイムチャット</title>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/socketjs-client/1.5.1/socketjs.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/socketjs.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp/2.3.3/stomp.min.js"></script>
 		</head>
 	<body>
@@ -19,7 +19,33 @@
 			var stompClient = null;
 			
 			//ページが開いたら自動で接続
+			function connect(){
+				var socket = new SockJS('/ws-chat');
+				stompClient = stomp.over(socket);
+				stompClient.connect({}, function (frame){
+					console.log('Connected: ' + frame);
+					// /topic/messagesを見張っておく
+					stompClient.subscribe('/topic/messages', function(response){
+						showMessage(response.body);
+					});
+				});
+			}
 			
+			function sendMessage(){
+				var message = document.getElementById('messageInput').value;
+				//サーバーの/app/messageへ送信
+				stompClient.send("/app/message", {}, message);
+				document.getElementById('messageInput').value = '';
+			}
+			
+			function showMessage(message){
+				var div = document.getElementById('messages');
+				var p = document.createElement('p');
+				p.appendChild(document.createTextNode(message));
+				div.appendChild;
+			}
+			
+			connect();
 		</script>
 	</body>
 </html>
