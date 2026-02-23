@@ -23,7 +23,7 @@ public class SecurityConfig {
 		http
 			//どのURLを誰に許可するのか
 			.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/register", "/login", "/h2-console/**").permitAll() //会員登録とDB確認画面は全員
+				.requestMatchers("/register", "/login", "/h2-console/**", "/js/**").permitAll() //会員登録とDB確認画面は全員
 				.anyRequest().authenticated() //それ以外のチャット画面などはログイン必須
 			)
 			//ログインの仕組み
