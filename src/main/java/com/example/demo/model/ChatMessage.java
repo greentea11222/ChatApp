@@ -29,10 +29,24 @@ public class ChatMessage {
 	//送信日時
 	private LocalDateTime timestamp;
 	
+	//送受信用の名前（画面表示用）
+	private String senderName;
+	
 	//送信者
 	//多対1のリレーション。多くの投稿が1人のユーザーに紐づく。
 	@ManyToOne
 	@JoinColumn(name = "user_id")
+	//送受信時にはUser全体を無視（JSONデータに変換しない）
+	@com.fasterxml.jackson.annotation.JsonIgnore
 	private User sender;
+	
+	//コンストラクタ
+	public ChatMessage() {}
+	public ChatMessage(String content, String senderName, User sender) {
+		this.content = content;
+		this.senderName = senderName;
+		this.sender = sender;
+		this.timestamp = LocalDateTime.now();
+	}
 	
 }

@@ -38,10 +38,15 @@
 				document.getElementById('messageInput').value = '';
 			}
 			
-			function showMessage(message){
+			function showMessage(payload){
+				var message = JSON.parse(payload);
 				var div = document.getElementById('messages');
 				var p = document.createElement('p');
-				p.appendChild(document.createTextNode(message));
+				
+				//senderNameを表示
+				p.innerHTML =
+					"<strong>" + message.senderName + "</strong>:"
+					+ message.content;
 				div.appendChild(p);
 				//最新のメッセージが見えるように自動スクロール
 				div.scrollTop = div.scrollHeight;
