@@ -9,10 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.model.ChatMessage;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.ChatMessageService;
 
 @Controller
 //チャット画面全体の表示
 public class ChatController {
+	private final ChatMessageService chatMessageService = null;
+	
+	private final UserRepository userRepository = null;
+	
 	//チャット画面の表示
 	@GetMapping("/chat")
 	public String chatPage() {
