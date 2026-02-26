@@ -29,6 +29,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	 * ⑤見つかった場合はインスタンスをOptional.of(user)、
 	 * 見つからなかった場合はOptional.empty()として返す
 	 */
-	Optional<User> findByName(String name);
+	Optional<User> findByUsername(String username);
 
 }

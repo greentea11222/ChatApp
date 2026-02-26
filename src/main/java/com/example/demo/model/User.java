@@ -35,7 +35,7 @@ public class User implements UserDetails{
 	
 	//ユーザー名は重複不可かつ空不可
 	@Column(unique = true, nullable = false)
-	private String name;
+	private String username;
 	
 	//パスワードは空不可
 	@Column(nullable = false)
@@ -70,6 +70,6 @@ public class User implements UserDetails{
 	
 	@Override
 	public String getUsername() {
-		return this.name;
+		return this.username;
 	}
 }
