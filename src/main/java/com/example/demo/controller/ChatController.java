@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.time.LocalDateTime;
-
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
@@ -40,15 +38,12 @@ public class ChatController {
 	public ChatMessage broadcastMessage(String content, Authentication authentication) {
 		//ログイン中の名前を取得
 		String username = authentication.getName();
-		User sender = null;
-				//userRepository.findByUsername(username);
-
+		User sender = userRepository.findByUsername(username)
+				.orElseThrow(() -> new RuntimeException("ユーザーが見つかりません"));
 		
-		//画面に返すオブジェクトを作成
+		//画面に返すオブジェクトを作成して保存
 		ChatMessage message = new ChatMessage(content, username, sender);
-		message.setContent(content);
-		message.setSenderName(username);
-		message.setTimestamp(LocalDateTime.now());
+		ChatMessage sendMessage = chatMessageService.save(message);
 		
 		return message;
 	}
