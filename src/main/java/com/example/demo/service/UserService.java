@@ -23,7 +23,7 @@ public class UserService implements UserDetailsService {
 	//会員登録のメソッド
 		public void registerUser(User user) {
 			//ユーザー名がすでに登録されている場合は例外
-			if(userRepository.findByName(user.getName()).isPresent()) {
+			if(userRepository.findByUsername(user.getUsername()).isPresent()) {
 				throw new RuntimeException("このユーザー名はすでに使用されています");
 			}
 			
@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
 	//ユーザー名をDBで探し、見つかったらUserインスタンスを返す
 	@Override
 	public UserDetails loadUserByUsername(String name) {
-		return userRepository.findByName(name)
+		return userRepository.findByUsername(name)
 				.orElseThrow(() -> new UsernameNotFoundException("ユーザーが見つかりません" + name));
 	}
 }

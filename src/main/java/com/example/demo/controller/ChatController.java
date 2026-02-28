@@ -1,9 +1,12 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.model.ChatMessage;
@@ -27,7 +30,13 @@ public class ChatController {
 	
 	//チャット画面の表示
 	@GetMapping("/chat")
-	public String chatPage() {
+	public String chatPage(Model model) {
+		//過去のメッセージを古い順に全権取得
+		List<ChatMessage> history = chatMessageService.getAllMessages();
+		
+		//HTMLにhistoryという名前で渡す
+		model.addAttribute("history", history);
+		
 		return "chat";
 	}
 	
