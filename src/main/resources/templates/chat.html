@@ -5,6 +5,49 @@
 		<title>リアルタイムチャット</title>
 		<script th:src="@{/js/sockjs.min.js?v=1}"></script>
 		<script th:src="@{/js/stomp.min.js?v=1}"></script>
+		<style>
+			/*チャットエリア全体の枠*/
+			#messages{
+				display: flex;
+				flex-direction: 10px;
+				gap: 10px;
+				background-color: #f0f2f5;
+				border-radius: 8px;
+			}
+			
+			/*メッセージ共通の形*/
+			.message-bubble{
+				max-width: 70%;
+				padding: 8px 12px;
+				border-radius: 15px;
+				position: relative;
+				font-size: 14px;
+				line-height: 1.4;
+			}
+			
+			/*自分のメッセージ*/
+			.my-message{
+				align-self: flex-end;
+				background-color: #0084ff;
+				color: white;
+				border-bottom-right-radius: 2px;
+			}
+			
+			/*相手のメッセージ*/
+			.other-message{
+				align-self: flex-start;
+				background-color: #e4e6eb;
+				color: black;
+				border-bottom-left-radius: 2px;
+			}
+			
+			/*名前と時間のラベル*/
+			.message-info{
+				font-size: 11px;
+				color: #65676b;
+				margin-bottom: 2px;
+			}
+		</style>
 		</head>
 	<body>
 		<h2>チャットルーム</h2>
@@ -12,6 +55,7 @@
 			style="border:1px solid #ccc; height:300px; 
 				overflow-y:scroll; margin-bottom:10px; padding:10px;">
 			<p th:each="msg : ${history}">
+				<small th:text="${#temporals.format(msg.timestamp, 'HH:mm')}"></small>
 				<strong th:text="${msg.senderName}">：</strong>
 				<span th:text="${msg.content}"></span>
 			</p>
