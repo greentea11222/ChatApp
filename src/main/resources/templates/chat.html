@@ -54,12 +54,16 @@
 		<div id="messages"
 			style="border:1px solid #ccc; height:300px; 
 				overflow-y:scroll; margin-bottom:10px; padding:10px;">
-			<p th:each="msg : ${history}">
-				<small th:text="${#temporals.format(msg.timestamp, 'HH:mm')}"></small>
-				<strong th:text="${msg.senderName}">：</strong>
-				<span th:text="${msg.content}"></span>
-			</p>
+			<div th:each="msg : ${history}"
+				th:class="${msg.senderName== #authentication.name} ? 'message-bubble my-message' : 'message-bubble other-message'">
+				
+				<div class="message-info">
+					<strong th:text="${msg.senderName}">：</strong>
+					<small th:text="${#temporals.format(msg.timestamp, 'HH:mm')}"></small>
+				</div>
+				<div th:text="${msg.content}"></div>
 			</div>
+		</div>
 		<input type="text" id="messageInput" placeholder="メッセージを入力...">
 		<button onclick="sendMessage()">送信</button>
 		
