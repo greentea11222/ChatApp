@@ -93,7 +93,14 @@
 			function showMessage(payload){
 				var message = JSON.parse(payload);
 				var div = document.getElementById('messages');
-				var p = document.createElement('p');
+				
+				//現在のユーザー名を取得
+				var currentUsername = "[[${#authentication.name}]]";
+				var isMe = (message.senderName === currentUsername);
+				
+				//メッセージ全体の枠を作成
+				var messageDiv = document.createElement('div');
+				messageDiv.className = 'message-bubble' + (isMe ? 'my-message': 'other-message');
 				
 				//senderNameを表示
 				p.innerHTML =
