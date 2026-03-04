@@ -102,6 +102,10 @@
 				var messageDiv = document.createElement('div');
 				messageDiv.className = 'message-bubble' + (isMe ? 'my-message': 'other-message');
 				
+				//中身のHTMLを組み立てる
+				var now = new Date();
+				var timeStr;
+				
 				//senderNameを表示
 				p.innerHTML =
 					"<strong>" + message.senderName + "</strong>："
