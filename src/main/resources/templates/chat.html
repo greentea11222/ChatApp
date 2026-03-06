@@ -109,9 +109,11 @@
 				
 				messageDiv.innerHTML =
 					'<div classs="message-info">' +
-						"<span>" + message.senderName + "</span>" +
+						'<span>'+ message.senderName + '</span>' +
+						'<small>' + timeStr + '</small>' +
+					'<div>' +
+					'<div>' + message.count + '</div>';
 					
-					+ message.content;
 				div.appendChild(p);
 				//最新のメッセージが見えるように自動スクロール
 				div.scrollTop = div.scrollHeight;
