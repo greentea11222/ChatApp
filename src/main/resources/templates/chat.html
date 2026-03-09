@@ -27,28 +27,28 @@
 			
 			/*メッセージ共通の形*/
 			.message-bubble{
-				max-width: 70%;
-				padding: 8px 12px;
-				border-radius: 15px;
+				max-width: 75%;
+				padding: 10px 16px;
+				font-size: 15px;
 				position: relative;
-				font-size: 14px;
-				line-height: 1.4;
+				transition: transform 0.2s ease;
 			}
 			
 			/*自分のメッセージ*/
 			.my-message{
 				align-self: flex-end;
-				background-color: #0084ff;
+				background: linear-gradient(135eg, #0084ff, #0073e6);
 				color: white;
-				border-bottom-right-radius: 2px;
+				border-radius: 18px 18px 2px 18px;
+				box-shadow: 0 2px 8px rgba(0, 132, 255, 0.3);
 			}
 			
 			/*相手のメッセージ*/
 			.other-message{
 				align-self: flex-start;
-				background-color: #e4e6eb;
-				color: black;
-				border-bottom-left-radius: 2px;
+				background-color: #f1f0f0;
+				color: #1c1e21;
+				border-radius:18px 18px 18px 2px;
 			}
 			
 			/*名前と時間のラベル*/
