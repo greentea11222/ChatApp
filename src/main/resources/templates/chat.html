@@ -53,10 +53,52 @@
 			
 			/*名前と時間のラベル*/
 			.message-info{
-				font-size: 11px;
-				color: #65676b;
-				margin-bottom: 2px;
+				font-size: 12px;
+				font-weight: 600;
+				margin-bottom: 4px;
+				display: flex;
+				align-items: center;
+				gap: 8px;
 			}
+			
+			.my-message .message-info {
+				justify-content: flex-end;
+				color: rgba(255, 255, 255, 0.9);
+			}
+			
+			.other-message .message-info {
+				color: #65676b;
+			}
+			
+			/* 入力エリアのカスタマイズ */
+			#messageInput {
+				width: calc(100% - 100px);
+				padding: 12px;
+				border: 2px solid #ddd;
+				border-radius: 25px;
+				outline: none;
+				transition: border-color 0.3s;
+			}
+			
+			#messsageInput:focus {
+				border-color: #0084ff;
+			}
+			
+			button {
+				background-color: #0084ff;
+				color: white;
+				border: none;
+				padding: 10px 20px;
+				border-radius: 25px;
+				font-weight: bold;
+				cursor: pointer;
+				transition: backgrround 0.3s;
+			}
+			
+			button:hover {
+				background-color: #0073e6;
+			}
+			
 		</style>
 		</head>
 	<body>
