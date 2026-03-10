@@ -153,6 +153,15 @@
 				//メッセージ全体の枠を作成
 				var messageDiv = document.createElement('div');
 				messageDiv.className = 'message-bubble' + (isMe ? 'my-message': 'other-message');
+				messageDiv.style.opacity = '0';
+				messageDiv.style.transform = 'translateY(10px)';
+				diiv.appendChild(messageDiv);
+				
+				setTimeout(() => {
+					messageDiv.style.transition = 'all 0.3s ease';
+					messageDiv.style.opacity = '1';
+					messageDiv.style.transform = 'translateY(0)';
+				}, 10);
 				
 				//中身のHTMLを組み立てる
 				var now = new Date();
