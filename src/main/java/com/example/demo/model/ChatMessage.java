@@ -40,6 +40,10 @@ public class ChatMessage {
 	@com.fasterxml.jackson.annotation.JsonIgnore
 	private User sender;
 	
+	//画像データを保持するフィールド（Base64方式）
+	@Column(columnDefinition = "TEXT")
+	private String imageData;
+	
 	//コンストラクタ
 	public ChatMessage() {}
 	public ChatMessage(String content, String senderName, User sender) {

@@ -117,6 +117,9 @@
 			</div>
 		</div>
 		<input type="text" id="messageInput" placeholder="メッセージを入力...">
+		
+		<input type="file" id="imageInput" accept="image/*" style="display: none" onchange="sendImage(this)">
+		<button type="button" onClick="document.getElementById('imageInput').click()" style="background: none; font-size: 20px; cursor: pointer;">📸カメラ</button> 
 		<button onclick="sendMessage()">送信</button>
 		
 		<script>
