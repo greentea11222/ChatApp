@@ -114,6 +114,9 @@
 					<small th:text="${#temporals.format(msg.timestamp, 'HH:mm')}"></small>
 				</div>
 				<div th:text="${msg.content}"></div>
+				<div th:if="${msg.imageData}">
+					<img th:src="${msg.imageData}" style="max-width: 200px; border-radius: 8px; margin-top: 5px; cursor:pointer;" onClick="window.open(this.src)">
+				</div>
 			</div>
 		</div>
 		<input type="text" id="messageInput" placeholder="メッセージを入力...">
