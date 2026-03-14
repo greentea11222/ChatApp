@@ -158,10 +158,10 @@
 				
 				//メッセージ全体の枠を作成
 				var messageDiv = document.createElement('div');
-				messageDiv.className = 'message-bubble' + (isMe ? 'my-message': 'other-message');
+				messageDiv.className = 'message-bubble ' + (isMe ? 'my-message': 'other-message');
 				messageDiv.style.opacity = '0';
 				messageDiv.style.transform = 'translateY(10px)';
-				diiv.appendChild(messageDiv);
+				div.appendChild(messageDiv);
 				
 				setTimeout(() => {
 					messageDiv.style.transition = 'all 0.3s ease';
@@ -174,16 +174,45 @@
 				var timeStr = now.getHours().toString().padStart(2, '0') + ':' +
 							now.getMinutes().toString().padStart(2, '0');
 				
+				//画像がある場合に表示するHTMLを準備
+				var imageHtml = message.imageData ?
+					'<div style="margin-top:5px;"><img src="' + message.imageData + '" style="max-width: 200px; border-radius: 8px;"></div>' : '';
+				
 				messageDiv.innerHTML =
-					'<div classs="message-info">' +
+					'<div class="message-info">' +
 						'<span>'+ message.senderName + '</span>' +
-						'<small>' + timeStr + '</small>' +
+						'<small style="margin-left:5px;">' + timeStr + '</small>' +
 					'<div>' +
-					'<div>' + message.count + '</div>';
+					'<div>' + message.content + '</div>' +
+					imageHtml;
+				
+				//画面に追加
+				div.appendChild(messageDiv);
 					
 				div.appendChild(p);
 				//最新のメッセージが見えるように自動スクロール
 				div.scrollTop = div.scrollHeight;
+			}
+			
+			//画像を読み込んで送信する関数
+			function sendImage(input){
+				var file = input.files[0];
+				if (file){
+					var reader = new FileReader();
+					reader.onload = function(e){
+						var base64Image = e.target.result;
+						
+						//サーバーへ送信（JSON形式で）
+						stompClient.send("/app/message", {}, JSON.stringify({
+							content: "", //画像送信時はテキストは空
+							imageData: base64Image
+						}));
+						
+						//送信後、入力をリセット
+						input.value = '';
+					};
+					reader.readAsDataURL(file);
+				}
 			}
 			
 			connect();
