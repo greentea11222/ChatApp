@@ -37,7 +37,7 @@
 			/*自分のメッセージ*/
 			.my-message{
 				align-self: flex-end;
-				background: linear-gradient(135eg, #0084ff, #0073e6);
+				background: linear-gradient(135deg, #0084ff, #0073e6);
 				color: white;
 				border-radius: 18px 18px 2px 18px;
 				box-shadow: 0 2px 8px rgba(0, 132, 255, 0.3);
@@ -142,10 +142,20 @@
 			}
 			
 			function sendMessage(){
-				var message = document.getElementById('messageInput').value;
+				var messageInput = document.getElementById('messageInput');
+				var messageContent = messageInput.value;
+				
+				if (stompClient && messageContent){
+					//ChatMessageクラスに合わせた形式（JSON）で送る
+					var chatMessage = {
+						content: messageContent,
+						imageData: null
+					};
+				
 				//サーバーの/app/messageへ送信
-				stompClient.send("/app/message", {}, message);
-				document.getElementById('messageInput').value = '';
+				stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+				messageInput.value = '';
+				}
 			}
 			
 			function showMessage(payload){
@@ -189,7 +199,6 @@
 				//画面に追加
 				div.appendChild(messageDiv);
 					
-				div.appendChild(p);
 				//最新のメッセージが見えるように自動スクロール
 				div.scrollTop = div.scrollHeight;
 			}
