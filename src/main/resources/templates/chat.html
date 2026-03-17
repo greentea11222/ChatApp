@@ -186,7 +186,11 @@
 				
 				//画像がある場合に表示するHTMLを準備
 				var imageHtml = message.imageData ?
-					'<div style="margin-top:5px;"><img src="' + message.imageData + '" style="max-width: 200px; border-radius: 8px;"></div>' : '';
+					'<div style="margin-top:5px;">' +
+					'<img src="' + message.imageData + '" ' +
+					 'style="max-width: 200px; border-radius: 8px; cursor: zoom-in;"' +
+					 'onClick="expandImage(this.src)">' + //クリックで拡大関数を呼ぶ
+					 '</div>' : '';
 				
 				messageDiv.innerHTML =
 					'<div class="message-info">' +
@@ -222,6 +226,13 @@
 					};
 					reader.readAsDataURL(file);
 				}
+			}
+			
+			function expandImage(src){
+				var modal = document.getElementById('imageModal');
+				var modalImg = document.getElementById('modalImage');
+				modal.style.display = 'block';
+				modalImg.src = src;
 			}
 			
 			connect();
