@@ -9,7 +9,15 @@
 	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
 	
 	<!--th:object="${user}"で、Controllerから渡されたUserオブジェクトを使えるようになる-->
-	<form th:action="@{/register}" th:object="${user}" method="post"> <div> 
+	<form th:action="@{/register}" th:object="${user}" method="post"> 
+		<div>
+			<label>プロフィールアイコン：</label>
+			<input type="file" accept="image/*" onchange="previewAndSetIcon(this)">
+			<input type="hidden" th:field="*{iconData}" id="iconDataHidden">
+			
+			<div id="iconPreview" style="margin-top:10px;"></div>
+		</div>
+		<div> 
 			<label>ユーザー名：</label>
 			<input type="text" th:field="*{username}" /> <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red;"></p>
 		</div>

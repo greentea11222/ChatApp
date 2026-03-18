@@ -54,6 +54,9 @@ public class User implements UserDetails{
 	@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ChatMessage> chats;
 
+	//アイコン画像データを保持するフィールド
+	@Column(columnDefinition = "TEXT")
+	private String iconData;
 	/*
 	 * 以下、UserDetailsインターフェースのオーバーライド
 	 * userDetailsのメソッドのうち3つはdefaultがついているためオーバーライド不要
