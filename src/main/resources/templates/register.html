@@ -15,8 +15,9 @@
 			<input type="file" accept="image/*" onchange="previewAndSetIcon(this)">
 			<input type="hidden" th:field="*{iconData}" id="iconDataHidden">
 			
-			<div id="iconPreview" style="margin-top:10px;"></div>
+			<div id="iconPreview" style="margin-top:10px; width: 60px; height: 60px; border-radius: 50%; background: #eee; background-size: cover;"></div>
 		</div>
+		<button type="submit">登録</button>
 		<div> 
 			<label>ユーザー名：</label>
 			<input type="text" th:field="*{username}" /> <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red;"></p>
