@@ -17,7 +17,6 @@
 			
 			<div id="iconPreview" style="margin-top:10px; width: 60px; height: 60px; border-radius: 50%; background: #eee; background-size: cover;"></div>
 		</div>
-		<button type="submit">登録</button>
 		<div> 
 			<label>ユーザー名：</label>
 			<input type="text" th:field="*{username}" /> <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red;"></p>
@@ -33,5 +32,20 @@
 	</form>
 	
 	<a th:href="@{/login}">ログイン画面へ</a>
+	<script>
+		function previewAndSetIcon(input) {
+			var file = input.files[0];
+			if(file){
+				var reader = new FileReader();
+				reader.onload = function(e){
+					var base64 = e.target.result;
+					document.getElementById('iconDataHidden').value = base64;
+					document.getElementById('iconPreview').style.backgroundImage = 'url(' + base64 + ')';
+				};
+				reader.readAsDataURL(file);
+			}
+		}
+	
+	</script>
 </body>
 </html>
