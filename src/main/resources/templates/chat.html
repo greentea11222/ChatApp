@@ -70,8 +70,28 @@
 				color: #65676b;
 			}
 			
+			/*アイコンの基本スタイル*/
 			.user-icon{
 				width: 35px;
+				height: 35px;
+				border-radius: 50px;
+				background-color: #ddd;
+				background-size: cover;
+				background-position: center;
+				flex-shrink: 0;
+			}
+			
+			/* メッセージとアイコンを横に並べる*/
+			.message-wrapper{
+				display: flex;
+				align-items: flex-end;
+				gap: 8px;
+				margin-bottom: 10px;
+			}
+			
+			/*自分のメッセージは右側にアイコン*/
+			.my-wrapper{
+				flex-direction: row-reverse;
 			}
 			
 			/* 入力エリアのカスタマイズ */
