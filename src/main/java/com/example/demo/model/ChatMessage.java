@@ -44,6 +44,10 @@ public class ChatMessage {
 	@Column(columnDefinition = "TEXT")
 	private String imageData;
 	
+	//送信者のアイコン画像
+	@Column(columnDefinition = "TEXT")
+	private String senderIcon;
+	
 	//コンストラクタ
 	public ChatMessage() {}
 	public ChatMessage(String content, String senderName, User sender) {

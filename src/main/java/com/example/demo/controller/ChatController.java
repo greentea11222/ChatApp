@@ -54,6 +54,10 @@ public class ChatController {
 		//届いたmessageに、足りない情報をセットする
 		message.setSenderName(username);
 		message.setSender(sender);
+		//ユーザーが登録したアイコンをメッセージに持たせる
+		if (sender != null) {
+			message.setSenderIcon(sender.getIconData());
+		}
 		message.setTimestamp(LocalDateTime.now());
 		
 		//DBに保存
