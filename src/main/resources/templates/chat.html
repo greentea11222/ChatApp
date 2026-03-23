@@ -198,8 +198,20 @@
 				var isMe = (message.senderName === currentUsername);
 				
 				//メッセージ全体の枠を作成
-				var messageDiv = document.createElement('div');
-				messageDiv.className = 'message-bubble ' + (isMe ? 'my-message': 'other-message');
+				var wrapper = document.createElement('div');
+				//自分か相手かでmy-wrapperかothe-wrapperを付与
+				wrapper.className = 'message-wrapper ' + (isMe ? 'my-wrapper': 'other-wrapper');
+				
+				//アイコン画像用のdivを作成
+				var iconDiv = document.createElement('div');
+				iconDiv.className = 'user-icon';
+				
+				if(message.senderIcon){
+					iconDiv.style.vackgroundImage = 'url(' + message.senderIcon + ')';
+				}else {
+					iconDiv.style.backgroundColor = '#ccc';
+				}
+				
 				messageDiv.style.opacity = '0';
 				messageDiv.style.transform = 'translateY(10px)';
 				div.appendChild(messageDiv);
