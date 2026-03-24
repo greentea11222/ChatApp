@@ -205,15 +205,31 @@
 				//アイコン画像用のdivを作成
 				var iconDiv = document.createElement('div');
 				iconDiv.className = 'user-icon';
-				
+				//アイコンがあれば背景画像に設定、なければグレー
 				if(message.senderIcon){
 					iconDiv.style.vackgroundImage = 'url(' + message.senderIcon + ')';
 				}else {
 					iconDiv.style.backgroundColor = '#ccc';
 				}
 				
+				//吹き出しを作成
+				var messageDiv = document.createElement('div');
+				messageDiv.className = 'message-bubble' + (isMe ? 'my-message' : 'other-message');
+				
+				//アニメーション用の初期設定
 				messageDiv.style.opacity = '0';
 				messageDiv.style.transform = 'translateY(10px)';
+				
+				var now = new Date();
+				var timeStr = now.getHours().toString().padStart(2, '0') + ':' +
+					now.getMinutes().toString().padStart(2, '0');
+				
+				var imageHtml = message.imageData ?
+				 	'<div style="margin-top:5px;"><img src="' + message.imageData + 
+					'" style="max-width: 200px; border-radius: 8px; cursor: zoom-in;" onclick="expandImage(this.src)"></div>' : '';
+				
+				//吹き出しの中身を組み立て
+					
 				div.appendChild(messageDiv);
 				
 				setTimeout(() => {
