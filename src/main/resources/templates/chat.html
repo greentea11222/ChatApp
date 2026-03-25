@@ -229,7 +229,16 @@
 					'" style="max-width: 200px; border-radius: 8px; cursor: zoom-in;" onclick="expandImage(this.src)"></div>' : '';
 				
 				//吹き出しの中身を組み立て
-					
+				messageDiv.innerHTML =
+					'<div class="message-info">' +
+					'<small style="margin-left:5px;">' + timeStr + '</small>' +
+					'<div>' +
+					'</div>' + (message.content || '') + '<div>' +
+					imageHtml;
+				
+				wrapper.appendChild(iconDiv);
+				wrapper.appendChild(messageDiv); 
+				
 				div.appendChild(messageDiv);
 				
 				setTimeout(() => {
