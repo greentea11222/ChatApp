@@ -283,6 +283,15 @@
 				modalImg.src = src;
 			}
 			
+			function deleteMessage(messageId){
+				if(confirm("このメッセージを削除しますか？")){
+					//サーバーの削除用エンドポイントへ送信
+					stompClient.send("/app/delete", {}, JSON.stringify({id: messageId}));
+				}
+				var deleteBtn = isMe ? `<span onclick="deleteMessage(${message.id})" 
+				style="cursor:pointer; color:red; margin-left:10px; font-size:12px;">[削除]</span>` : '';
+			}
+			
 			connect();
 		</script>
 		<div id="imageModal" onClick="this.style.display='none'"
