@@ -63,4 +63,16 @@ public class ChatController {
 		//DBに保存
 		return chatMessageService.save(message);
 	}
+	
+	@MessageMapping("/delete")
+	@SendTo("/topic/messages")
+	public ChatMessage deleteMessage(ChatMessage message) {
+		//DBから削除
+		chatMessageService.deleteById(message.getId());
+		
+		message.setContent("このメッセージは削除されました。");
+		message.setImageData(null);
+		message.setDeleteFlg(true);
+		return message;
+	}
 }

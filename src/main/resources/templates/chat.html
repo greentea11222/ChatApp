@@ -290,6 +290,15 @@
 				}
 				var deleteBtn = isMe ? `<span onclick="deleteMessage(${message.id})" 
 				style="cursor:pointer; color:red; margin-left:10px; font-size:12px;">[削除]</span>` : '';
+				
+				messageDiv.innerHTML = `
+				<div class="message-info">
+					<span>${message.senderName}</span>
+					<small style="margin-left:Spx;">${timeStr}</small>
+					${deleteStn}
+				</div>
+				<div>${message.content || ''}</div>
+				${imageHTML}`;
 			}
 			
 			connect();

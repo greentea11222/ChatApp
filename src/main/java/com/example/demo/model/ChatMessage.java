@@ -48,6 +48,9 @@ public class ChatMessage {
 	@Column(columnDefinition = "TEXT")
 	private String senderIcon;
 	
+	//削除フラグ
+	private boolean deleteFlg;
+	
 	//コンストラクタ
 	public ChatMessage() {}
 	public ChatMessage(String content, String senderName, User sender) {

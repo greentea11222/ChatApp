@@ -26,4 +26,8 @@ public class ChatMessageService {
 	public List<ChatMessage> getAllMessages() {
 		return repository.findAllByOrderByTimestampAsc();
 	}
+
+	public void deleteById(Long id) {
+		repository.deleteById(id);
+	}
 }
