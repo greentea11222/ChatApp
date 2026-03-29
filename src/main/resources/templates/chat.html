@@ -130,7 +130,7 @@
 		<div id="messages"
 			style="border:1px solid #ccc; height:300px; 
 				overflow-y:scroll; margin-bottom:10px; padding:10px;">
-			<div th:each="msg : ${history}"
+			<div th:each="'msg-' + ${msg.id}" th:each="msg : ${history}" ...>
 				th:class="${msg.senderName== #authentication.name} ? 'message-wrapper my-wrapper' : 'message-wrapper other-wrapper'">
 				
 				<div class="user-icon"
@@ -195,6 +195,19 @@
 			
 			function showMessage(payload){
 				var message = JSON.parse(payload);
+				
+				//もし削除フラグが立っていたら
+				if(message.deleteFlg){
+					//IDを元に画面上の要素を探して消す
+					var targetMessage = document.getElementById('msg-' + message.id);
+					if(targetMessage){
+						targetMessage.style.transition = 'all 0.5s ease';
+						targetMessage.style.opacity = '0';
+						setTimeout(() => targetMessage.remove(), 500);
+					}
+					return;
+				}
+				
 				var div = document.getElementById('messages');
 				
 				//現在のユーザー名を取得
