@@ -1,8 +1,11 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -50,6 +53,15 @@ public class ChatMessage {
 	
 	//削除フラグ
 	private boolean deleteFlg;
+	
+	//既読をつけたユーザーのSet
+	@ElementCollection
+	private Set<String> readByUsers = new HashSet<>();
+	
+	//既読数を返す
+	public int getReadCount() {
+		return readByUsers.size();
+	}
 	
 	//コンストラクタ
 	public ChatMessage() {}

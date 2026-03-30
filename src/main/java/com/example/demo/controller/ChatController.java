@@ -75,4 +75,13 @@ public class ChatController {
 		message.setDeleteFlg(true);
 		return message;
 	}
+	
+	@MessageMapping("/read")
+	@SendTo("/topic/messages")
+	public ChatMessage markAsRead(ChatMessage message, Authentication authentication) {
+		//最新のメッセージをDBから取得
+		ChatMessage existingMsg = null;
+		//=chatMessageService.findById(message.getId());
+		return chatMessageService.save(existingMsg);
+	}
 }
