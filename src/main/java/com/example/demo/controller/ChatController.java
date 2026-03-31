@@ -80,8 +80,12 @@ public class ChatController {
 	@SendTo("/topic/messages")
 	public ChatMessage markAsRead(ChatMessage message, Authentication authentication) {
 		//最新のメッセージをDBから取得
-		ChatMessage existingMsg = null;
-		//=chatMessageService.findById(message.getId());
+		ChatMessage existingMsg = chatMessageService.findById(message.getId());
+		
+		//自分の名前を既読リストに追加
+		existingMsg.getReadByUsers().add(authentication.getName());
+		
+		//更新して全員に通知
 		return chatMessageService.save(existingMsg);
 	}
 }

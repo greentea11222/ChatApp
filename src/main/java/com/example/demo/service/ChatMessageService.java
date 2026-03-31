@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.ChatMessage;
@@ -10,6 +11,7 @@ import com.example.demo.repository.ChatMessageRepository;
 //メッセージの保存やフィルタリング処理
 @Service
 public class ChatMessageService {
+	@Autowired
 	private final ChatMessageRepository repository;
 	
 	//コンストラクタ
@@ -29,5 +31,11 @@ public class ChatMessageService {
 
 	public void deleteById(Long id) {
 		repository.deleteById(id);
+	}
+	
+	//DBからメッセージを1件取得する
+	public ChatMessage findById(Long id) {
+		return repository.findById(id)
+				.orElseThrow(() -> new RuntimeException("メッセージが見つかりません。ID：" + id));
 	}
 }
