@@ -196,6 +196,11 @@
 			function showMessage(payload){
 				var message = JSON.parse(payload);
 				
+				//自分以外のメッセージが届いたら既読を送る
+				if(!isMe){
+					sendReadReceipt(message.id);
+				}
+				
 				//もし削除フラグが立っていたら
 				if(message.deleteFlg){
 					//IDを元に画面上の要素を探して消す
@@ -312,6 +317,11 @@
 				</div>
 				<div>${message.content || ''}</div>
 				${imageHTML}`;
+			}
+			
+			//メッセージを受信した時または画面を表示した時に実行
+			function sendReadReceipt(messageId){
+				stompClient.send("/app/read", {}, JSON.stringify({id: messageId}));
 			}
 			
 			connect();
