@@ -94,6 +94,19 @@
 				flex-direction: row-reverse;
 			}
 			
+			.message-status{
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				padding-bottom: 2px;
+				white-space: nowrap;
+			}
+			
+			/*自分のメッセージの場合、既読を吹き出しの左側に置く*/
+			.my-wrapper .message-status{
+				text-align: right;
+			}
+			
 			/* 入力エリアのカスタマイズ */
 			#messageInput {
 				width: calc(100% - 100px);
@@ -150,7 +163,11 @@
 				
 				<div class="message-status"
 					th:if="${msg.senderName == #authentication.name}"
-					style="">
+					style="align-self: flex-end; font-size: 10px; color: #888; margin: 0 5px; min-width: 40px;">
+					<span th:id="'read-count-' + ${msg.id}"
+						th:id="${msg.readByUsers.size() > 0}"
+						th:text="'既読' + ${msg.readByUsers.size()}">
+					</span>
 				</div>
 				
 					<div th:if="${msg.imageData}">
