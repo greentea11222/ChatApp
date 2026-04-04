@@ -219,6 +219,11 @@
 			
 			function showMessage(payload){
 				var message = JSON.parse(payload);
+				var div = document.getElementById('messages');
+				
+				//現在のユーザー名を取得
+				var currentUsername = "[[${#authentication.name}]]";
+				var isMe = (message.senderName === currentUsername);
 				
 				//自分以外のメッセージが届いたら既読を送る
 				if(!isMe){
@@ -236,12 +241,6 @@
 					}
 					return;
 				}
-				
-				var div = document.getElementById('messages');
-				
-				//現在のユーザー名を取得
-				var currentUsername = "[[${#authentication.name}]]";
-				var isMe = (message.senderName === currentUsername);
 				
 				//メッセージ全体の枠を作成
 				var wrapper = document.createElement('div');
@@ -261,6 +260,15 @@
 				//吹き出しを作成
 				var messageDiv = document.createElement('div');
 				messageDiv.className = 'message-bubble' + (isMe ? 'my-message' : 'other-message');
+				
+				//既読ステータスを表示する枠
+				var statusDiv = document.createElement('div');
+				statusDiv.className = 'message-status';
+				statusDiv.id = 'status-' + message.id;
+				//自分のメッセージで、かつ既読がいれば数字を出す
+				is(isMe && message.readByUsers && message.readByUsers.length > 0){
+					statusDiv.innerHTML = `<span id="read-count${message.id}">既読 ${message.readByUsers.length}</span>`;
+				}
 				
 				//アニメーション用の初期設定
 				messageDiv.style.opacity = '0';
@@ -284,8 +292,14 @@
 				
 				wrapper.appendChild(iconDiv);
 				wrapper.appendChild(messageDiv); 
+				wrapper.appendChild(statusDiv);
 				
 				div.appendChild(wrapper);
+				
+				//自分以外のメッセージが届いたら、既読を送る
+				if(!isMe){
+					stompClient.send("/app/read", {}, JSON.stringify({ id: message.id}));
+				}
 				
 				setTimeout(() => {
 					wrapper.style.transition = 'all 0.3s ease';
