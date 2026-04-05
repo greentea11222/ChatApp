@@ -221,6 +221,19 @@
 				var message = JSON.parse(payload);
 				var div = document.getElementById('messages');
 				
+				// 既存メッセージの既読更新通知だった場合
+				var existingStatus = document.getElementById('status-' + message.id);
+				if(existingStatus){
+					//既読リストに誰かいたら数字を更新
+					if(message.readByUsers && message.readByUsers.length > 0){
+						existingStatus.innerHTML = `<span id="read-count-${message.id}">既読 ${message.readByUsers.length}</span>`;
+					}
+					//新規作成ではないので、ここで処理を終了
+					if(!document.getElementById('msg-' + message.id).innerHTML.includes('message-bubble')){
+						//すでにメッセージ本体が表示されているはずなので、これ以上は何も表示しない
+					}
+				}
+				
 				//現在のユーザー名を取得
 				var currentUsername = "[[${#authentication.name}]]";
 				var isMe = (message.senderName === currentUsername);
