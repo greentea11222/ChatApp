@@ -88,4 +88,19 @@ public class ChatController {
 		//更新して全員に通知
 		return chatMessageService.save(existingMsg);
 	}
+	
+	@MessageMapping("/reaction")
+	@SendTo("/topic/messages")
+	public ChatMessage handleReaction(ChatMessage message, Authentication authentication) {
+		//対象のメッセージをDBから取得
+		ChatMessage existingMsg = chatMessageService.findById(message.getId());
+		
+		//送信者の名前と、送られてきた絵文字（contentフィールドを流用）を取得
+		String username = authentication.getName();
+		String emoji = message.getContent();
+		
+		//明日追加！！
+		
+		return chatMessageService.save(existingMsg);
+	}
 }
