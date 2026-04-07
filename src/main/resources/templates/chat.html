@@ -375,6 +375,14 @@
 				stompClient.send("/app/read", {}, JSON.stringify({id: messageId}));
 			}
 			
+			//リアクションを送信する関数
+			function sendReaction(messageId, emoji){
+				stompClient.send("/app/reaction", {}, JSON.stringify({
+					id: messageId,
+					content: emoji //contentフィールドに絵文字を入れて送る
+				}));
+			}
+			
 			connect();
 		</script>
 		<div id="imageModal" onClick="this.style.display='none'"

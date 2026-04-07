@@ -100,6 +100,11 @@ public class ChatController {
 		String emoji = message.getContent();
 		
 		//明日追加！！
+		if (emoji.equals(existingMsg.getReactions().get(username))) {
+			existingMsg.getReactions().remove(username);
+		} else {
+			existingMsg.getReactions().put(username, emoji);
+		}
 		
 		return chatMessageService.save(existingMsg);
 	}
