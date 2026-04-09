@@ -279,7 +279,7 @@
 				statusDiv.className = 'message-status';
 				statusDiv.id = 'status-' + message.id;
 				//自分のメッセージで、かつ既読がいれば数字を出す
-				is(isMe && message.readByUsers && message.readByUsers.length > 0){
+				if(isMe && message.readByUsers && message.readByUsers.length > 0){
 					statusDiv.innerHTML = `<span id="read-count${message.id}">既読 ${message.readByUsers.length}</span>`;
 				}
 				
@@ -381,6 +381,19 @@
 					id: messageId,
 					content: emoji //contentフィールドに絵文字を入れて送る
 				}));
+			}
+			
+			//showMessage関数での表示更新
+			function updateReactions(messageId, reactionCounts){
+				var container = document.querySelection(`#msg-${messageId} .reaction-container`);
+				if(container){
+					let html = '';
+					for (const [emoji, count] of Object.entries(reactionCounts)){
+						html += `<span class="reaction-badge" style="background: #eee; padding: 2px 6px; border-radius: 10px; font-size: 12px; margin-right:5px;">${emoji} ${count}</span>`;
+					}
+					html += `<button onclick="sendReaction(${messageId}, '👍')" style="border:none; background:none; cursor:pointer;>"+</button>`;
+					container.innerHTML = html;
+				}
 			}
 			
 			connect();
