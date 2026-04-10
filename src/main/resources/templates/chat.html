@@ -140,23 +140,22 @@
 		</head>
 	<body>
 		<h2>チャットルーム</h2>
-		<div id="messages"
-			style="border:1px solid #ccc; height:300px; 
-				overflow-y:scroll; margin-bottom:10px; padding:10px;">
-			<div th:each="'msg-' + ${msg.id}" th:each="msg : ${history}" 
-				th:class="${msg.senderName== #authentication.name} ? 'message-wrapper my-wrapper' : 'message-wrapper other-wrapper'">
-				
-				<div class="user-icon"
-					th:style="${msg.senderIcon != null} ? 'background-image': url(' + msg.senderIcon + ') : 'background-color : #ccc;'">
-				</div>
-				<div th:class="${msg.senderName == #authentication.name ? 'message-bubble my message' : 'message-bubble other-message'">
-					<div class="message-info">
-						<strong th:text="${msg.senderName}">：</strong>
-						<small th:text="${#temporals.format(msg.timestamp, 'HH:mm')}"></small>
-					
-						<span th:if="${msg.senderName == #authentication.name}"
-							th:onclick="'deleteMessage(' + ${msg.id} + ')'"
-							style="cursor:pointer; color:red; margin-left:10px; font-size:12px;">[削除]</span>
+		<div id="messages" style="border:1px solid #ccc; height:300px; overflow-y:scroll; margin-bottom:10px; padding:10px;">
+		    <div th:id="'msg-' + ${msg.id}" th:each="msg : ${history}" 
+		         th:class="${msg.senderName == #authentication.name} ? 'message-wrapper my-wrapper' : 'message-wrapper other-wrapper'">
+		        
+		        <div class="user-icon" 
+		             th:style="${msg.senderIcon != null} ? 'background-image: url(' + ${msg.senderIcon} + ')' : 'background-color: #ccc;'">
+		        </div>
+
+		        <div th:class="${msg.senderName == #authentication.name} ? 'message-bubble my-message' : 'message-bubble other-message'">
+		            <div class="message-info">
+		                <strong th:text="${msg.senderName}">：</strong>
+		                <small th:text="${#temporals.format(msg.timestamp, 'HH:mm')}"></small>
+		            
+		                <span th:if="${msg.senderName == #authentication.name}"
+		                      th:onclick="'deleteMessage(' + ${msg.id} + ')'"
+		                      style="cursor:pointer; color:red; margin-left:10px; font-size:12px;">[削除]</span>
 					</div>
 					<div th:text="${msg.content}"></div>
 				</div>
