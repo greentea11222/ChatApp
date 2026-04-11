@@ -70,6 +70,10 @@ public class ChatMessage {
 	@Column(name = "emoji")
 	private Map<String, String> reactions = new HashMap<>();
 	
+	//入力中の表示
+	private boolean typing;
+	
+	
 	//リアクションをまとめるメソッド
 	public Map<String, Integer> getReactionCounts(){
 		Map<String, Integer> counts = new HashMap<>();

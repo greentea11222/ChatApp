@@ -108,4 +108,13 @@ public class ChatController {
 		
 		return chatMessageService.save(existingMsg);
 	}
+	
+	//入力中の表示
+	@MessageMapping("/typing")
+	@SendTo("/topic/messages")
+	public ChatMessage handleTyping(ChatMessage message, Authentication authentication) {
+		message.setSenderName(authentication.getName());
+		message.setTyping(true); //入力中のフラグを立てる
+		return message;
+	}
 }
