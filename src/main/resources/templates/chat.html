@@ -399,7 +399,16 @@
 			let typingTimeout;
 			
 			//メッセージ入力欄にoninput="sendTyping()"を追加して呼び出す
+			function sendTyping(){
+				stompClient.send("/app/typing", {}, JSON.stringify({typing: true}));
+			}
 			
+			//showMessage関数の中で受信した時の処理
+			function showMessage(payload){
+				var message = JSON.parse(payload);
+				
+				
+			}
 			
 			
 			connect();
