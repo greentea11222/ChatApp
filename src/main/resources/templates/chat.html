@@ -407,7 +407,15 @@
 			function showMessage(payload){
 				var message = JSON.parse(payload);
 				
-				
+				if(message.typing){
+					var indicator = document.getElementById('typing-indicator');
+					indicator.innerText = message.senderName + "　さんが入力中・・・";
+					
+					//3秒後に自動で消す
+					clearTimeout(typingTimeout);
+					typingTimeout = setTimeout(() => {indicator.innerText = "";}, 3000);
+					return;
+				}
 			}
 			
 			
