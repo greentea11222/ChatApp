@@ -38,4 +38,9 @@ public class ChatMessageService {
 		return repository.findById(id)
 				.orElseThrow(() -> new RuntimeException("メッセージが見つかりません。ID：" + id));
 	}
+	
+	//リポジトリを呼び出すメソッド
+	public List<ChatMessage> searchMessages(String keyword){
+		return repository.findByContentContainingIgnoreCase(keyword);
+	}
 }

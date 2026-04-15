@@ -11,4 +11,7 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
 	
 	//チャットを全件取得し、投稿時間の古い順に並べ替え
 	List<ChatMessage> findAllByOrderByTimestampAsc();
+	
+	//メッセージ内容(content)にキーワードが含まれているものを探す
+	List<ChatMessage> findByContentContainingIgnoreCase(String keyword);
 }

@@ -178,7 +178,7 @@
 			</div>
 		</div>
 		<div id="typing-indicator" style="font-size: 12px; color: #888; height: 20px; margin-bottom: 5px; padding-left: 10px;"></div>
-		<input type="text" id="messageInput" placeholder="メッセージを入力...">
+		<input type="text" id="messageInput" placeholder="メッセージを入力..." oninput="sendTyping()">
 		
 		<input type="file" id="imageInput" accept="image/*" style="display: none" onchange="sendImage(this)">
 		<button type="button" onClick="document.getElementById('imageInput').click()" style="background: none; font-size: 20px; cursor: pointer;">📸カメラ</button> 
