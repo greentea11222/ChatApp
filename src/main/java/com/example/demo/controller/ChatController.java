@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.model.ChatMessage;
 import com.example.demo.model.User;
@@ -116,5 +118,12 @@ public class ChatController {
 		message.setSenderName(authentication.getName());
 		message.setTyping(true); //入力中のフラグを立てる
 		return message;
+	}
+	
+	//メッセージ検索
+	@GetMapping("/api/search")
+	@ResponseBody //ページ遷移せずデータだけを返す
+	public List<ChatMessage> search(@RequestParam String keyword){
+		return chatMessageService.searchMessages(keyword);
 	}
 }
