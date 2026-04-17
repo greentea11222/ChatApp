@@ -423,6 +423,21 @@
 				}
 			}
 			
+			//検索
+			function searchMessages(){
+				const keyword = document.getElementById('searchInput').value;
+				if(!keyword) return;
+				
+				//サーバのAPIを叩く
+				fetch('/api/search?leyword=' + encodeURIComponent(keyword))
+					.then(response => response.json())
+					.then(results => {
+						const messageArea = document.getElemetnById('messages');
+						messageArea.innetHTML = ''; //一旦画面を真っ白にする
+						//明日はここから
+					})
+			}
+			
 			
 			connect();
 		</script>
