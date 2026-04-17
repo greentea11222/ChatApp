@@ -140,6 +140,11 @@
 		</head>
 	<body>
 		<h2>チャットルーム</h2>
+		<div style="margin-bottom: 10px;">
+			<input type="text" id="searchInput" placeholder="過去ログを検索...">
+			<button onclick="searchMessages()">検索</butto>m
+			<button onclick="location.reload()">戻る</button>
+		</div>
 		<div id="messages" style="border:1px solid #ccc; height:300px; overflow-y:scroll; margin-bottom:10px; padding:10px;">
 		    <div th:id="'msg-' + ${msg.id}" th:each="msg : ${history}" 
 		         th:class="${msg.senderName == #authentication.name} ? 'message-wrapper my-wrapper' : 'message-wrapper other-wrapper'">
