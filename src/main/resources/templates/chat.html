@@ -429,7 +429,7 @@
 				if(!keyword) return;
 				
 				//サーバのAPIを叩く
-				fetch('/api/search?leyword=' + encodeURIComponent(keyword))
+				fetch('/api/search?keyword=' + encodeURIComponent(keyword))
 					.then(response => response.json())
 					.then(results => {
 						const messageArea = document.getElemetnById('messages');
@@ -443,6 +443,7 @@
 						//検索結果を表示（既存の表示ロジックを流用）
 						results.forEach(msg => {
 							const div = document.createElement('div');
+							div.className = 'message-wrapper';
 							div.innerText = `[${msg.senderName}]: ${msg.content}`;
 							messageArea.appendChild(div);
 						});
