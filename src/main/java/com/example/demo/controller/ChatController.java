@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
 
 import com.example.demo.model.ChatMessage;
 import com.example.demo.model.User;
@@ -125,5 +127,10 @@ public class ChatController {
 	@ResponseBody //ページ遷移せずデータだけを返す
 	public List<ChatMessage> search(@RequestParam String keyword){
 		return chatMessageService.searchMessages(keyword);
+	}
+	
+	@EventListener
+	public void handleWebSocketConnectListener(SessionConnectedEvent event){
+		//接続イベントを検知した際の処理
 	}
 }

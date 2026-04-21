@@ -72,6 +72,9 @@ public class ChatMessage {
 
 	//入力中の表示
 	private boolean typing;
+	
+	//メッセージの種類を区別するフィールド
+	private String type;
 
 	//リアクションをまとめるメソッド
 	public Map<String, Integer> getReactionCounts() {
