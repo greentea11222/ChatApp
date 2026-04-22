@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import com.example.demo.model.ChatMessage;
 import com.example.demo.model.User;
@@ -27,10 +30,14 @@ public class ChatController {
 	
 	private UserRepository userRepository = null;
 	
+	private final SimpMessagingTemplate messagingTemplate;
+	
 	//コンストラクタ
-	public ChatController(ChatMessageService chatMessageService, UserRepository userRepository) {
+	public ChatController(ChatMessageService chatMessageService, 
+			UserRepository userRepository, SimpMessagingTemplate messagingTemplate) {
 		this.chatMessageService = chatMessageService;
 		this.userRepository = userRepository;
+		this.messagingTemplate = messagingTemplate;
 	}
 	
 	//チャット画面の表示
@@ -132,5 +139,17 @@ public class ChatController {
 	@EventListener
 	public void handleWebSocketConnectListener(SessionConnectedEvent event){
 		//接続イベントを検知した際の処理
+	}
+	@EventListener
+	public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+		String username = (String) headerAccessor.getSessionAttributes().get("username");
+		
+		if(username != null) {
+			ChatMessage leaveMessage = new ChatMessage();
+			leaveMessage.setType("LEAVE");
+			leaveMessage.setSenderName(username);
+			messagingTemplate.convertAndSend("/topic/messages", leaveMessage);
+		}
 	}
 }
