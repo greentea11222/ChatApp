@@ -462,7 +462,19 @@
 			}
 			
 			function addUserToList(username){
-				//明日書く
+				const list = document.getElementById('userList');
+				if(!document.getElementById('user-' + username)){
+					const li = document.createElement('li');
+					li.id = 'user-' + username;
+					list.innetText = '⚫ ︎ ' + username;
+					li.style.colr = 'green';
+					list.appendChild(li);
+				}
+			}
+			
+			function removeUserFromList(username){
+				const li = document.getElementById('user-' + username);
+				if(li) li.remove();
 			}
 			
 			connect();
