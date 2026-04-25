@@ -62,6 +62,15 @@ public class ChatMessage {
 	//既読をつけたユーザーのSet
 	@ElementCollection
 	private Set<String> readByUsers = new HashSet<>();
+	
+	//リンクのタイトル
+	private String linkTitle;
+	
+	//リンクのプレビュー画像
+	private String linkImage;
+	
+	//リンクページの説明文
+	private String linkDescription;
 
 	//リアクション
 	@ElementCollection(fetch = FetchType.EAGER)

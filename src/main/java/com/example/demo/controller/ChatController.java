@@ -152,4 +152,28 @@ public class ChatController {
 			messagingTemplate.convertAndSend("/topic/messages", leaveMessage);
 		}
 	}
+	
+	private String extractUrl(String content) {
+		//URLを抽出する正規表現
+		
+		
+		return null;
+	}
+	
+	//メッセージ送信時の処理の中で呼び出す
+	private void fillLinkPreview(ChatMessage message) {
+		String content = message.getContent();
+		if (content.contains("http")) {
+//			try {
+				//URLを抽出してサイトを読み込む
+				String url = extractUrl(content);
+//				Document doc = Jsoup.connect(url).get();
+				
+				//
+				
+//			}catch(IOException e) {
+//				
+//			}
+		}
+	}
 }
