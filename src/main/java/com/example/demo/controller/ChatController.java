@@ -171,15 +171,18 @@ public class ChatController {
 	
 	//メッセージ送信時の処理の中で呼び出す
 	private void fillLinkPreview(ChatMessage message) {
-		String content = message.getContent();
-		if (content.contains("http")) {
+		String url = message.getContent();
+		if (url != null) {
 //			try {
-				//URLを抽出してサイトを読み込む
-				String url = extractUrl(content);
-//				Document doc = Jsoup.connect(url).get();
-				
-				//
-				
+				//タイムアウト設定を追加しておくと、サイトが重い時にフリーズしない
+//				Document doc = Jsoup.connect(url).timeout(3000).get();
+//				
+//				//OPGタグを取得
+//				String title = doc.select("meta[property=og:title]").attr("content");
+//				if(title.isEmpty()) title = doc.title();
+//				
+//				String image = doc.select("").attr("content");
+			
 //			}catch(IOException e) {
 //				
 //			}
