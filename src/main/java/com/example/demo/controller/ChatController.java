@@ -181,10 +181,14 @@ public class ChatController {
 //				String title = doc.select("meta[property=og:title]").attr("content");
 //				if(title.isEmpty()) title = doc.title();
 //				
-//				String image = doc.select("").attr("content");
+//				String image = doc.select("meta[property=og:image]").attr("content");
+//				String description = doc.select("meta[property=og:description]").attr("content");
+	//			message.setLinkTitle(title);
+	//			message.setLinkImage(image);
+	//			message.setLinkDesciption(description);
 			
 //			}catch(IOException e) {
-//				
+//				System.err.println("URLプレビューの取得に失敗しました: " + e.getMessage());
 //			}
 		}
 	}
