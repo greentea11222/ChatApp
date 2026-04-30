@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -72,6 +75,9 @@ public class ChatController {
 			message.setSenderIcon(sender.getIconData());
 		}
 		message.setTimestamp(LocalDateTime.now());
+		
+		//送信雨にURLが含まれているか確認し、あればプレビュー情報をセット
+		fillLinkPreview(message);
 		
 		//DBに保存
 		return chatMessageService.save(message);
@@ -171,25 +177,26 @@ public class ChatController {
 	
 	//メッセージ送信時の処理の中で呼び出す
 	private void fillLinkPreview(ChatMessage message) {
-		String url = message.getContent();
+		String url = extractUrl(message.getContent());
+		
 		if (url != null) {
-//			try {
+			try {
 				//タイムアウト設定を追加しておくと、サイトが重い時にフリーズしない
-//				Document doc = Jsoup.connect(url).timeout(3000).get();
-//				
-//				//OPGタグを取得
-//				String title = doc.select("meta[property=og:title]").attr("content");
-//				if(title.isEmpty()) title = doc.title();
-//				
-//				String image = doc.select("meta[property=og:image]").attr("content");
-//				String description = doc.select("meta[property=og:description]").attr("content");
-	//			message.setLinkTitle(title);
-	//			message.setLinkImage(image);
-	//			message.setLinkDesciption(description);
+				Document doc = Jsoup.connect(url).timeout(3000).get();
+				
+				//OPGタグを取得
+				String title = doc.select("meta[property=og:title]").attr("content");
+				if(title.isEmpty()) title = doc.title();
+				
+				String image = doc.select("meta[property=og:image]").attr("content");
+				String description = doc.select("meta[property=og:description]").attr("content");
+				message.setLinkTitle(title);
+				message.setLinkImage(image);
+				message.setLinkDescription(description);
 			
-//			}catch(IOException e) {
-//				System.err.println("URLプレビューの取得に失敗しました: " + e.getMessage());
-//			}
+			}catch(IOException e) {
+				System.err.println("URLプレビューの取得に失敗しました: " + e.getMessage());
+			}
 		}
 	}
 }
