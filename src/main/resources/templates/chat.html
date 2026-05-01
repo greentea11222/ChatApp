@@ -187,11 +187,15 @@
 				</div>
 			</div>
 		</div>
-		<div th:if="${msg.linkTitle}" style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-top: 5px; background: #f9f9f9;">
+		<div th:if="${msg.linkTitle}" style="margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-top: 5px; background: #f9f9f9;">
 			<img th:if="${msg.linkImage}" th:src="${msg.linkImage}" style="width: 100%; height: auto;">
-			<div style="padding: 8px;">
-				<div style="font-weight: bold; font-size: 14px;" th:text="${msg.linkTitle}"></div>
-				<div style="font-size: 12px; color: #666;" th:text="${msg.linkDescription}"></div>
+			<div style="padding: 10px;">
+				<a th:href="${extractUrl(msg.content)}" target="_blank" style="text-decoration: none; color: #1d9bf0; font-weight: bold; font-size: 14px;">
+					<div th:text="${msg.linkTitle}">サイトタイトル</div>
+				</a>
+				<div th:if="${msg.linkDescription}" th:text="${msg.linkDescription}" style="font-size: 12px; color: #666;">
+					説明文
+				</div>
 			</div>
 		</div>
 		<div id="typing-indicator" style="font-size: 12px; color: #888; height: 20px; margin-bottom: 5px; padding-left: 10px;"></div>
