@@ -488,6 +488,24 @@
 				if(li) li.remove();
 			}
 			
+			//通知の許可をとる
+			function requestNotificationRermission(){
+				if (Notification.permission != 'granted'){
+					Notification.requestPermission();
+				}
+			}
+			
+			//メッセージ受信時に通知を出す
+			function showDesktopNotification(message){
+				//自分が送ったメッセージ以外、かつ通知許可がある場合
+				if(message.senderName != currentUsername && Notification.permission === 'granted'){
+					new Notification(message.senderName + " さんからのメッセージ", {
+						body: message.content,
+						icon: '/path/to/icon.png'
+					});
+				}
+			}
+			
 			connect();
 		</script>
 		<div id="imageModal" onClick="this.style.display='none'"
