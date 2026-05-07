@@ -129,7 +129,7 @@
 				border-radius: 25px;
 				font-weight: bold;
 				cursor: pointer;
-				transition: backgrround 0.3s;
+				transition: background 0.3s;
 			}
 			
 			button:hover {
@@ -168,8 +168,18 @@
 		                      style="cursor:pointer; color:red; margin-left:10px; font-size:12px;">[削除]</span>
 					</div>
 					<div th:text="${msg.content}"></div>
+					<div th:if="${msg.linkTitle}" style="margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-top: 5px; background: #f9f9f9;">
+								<img th:if="${msg.linkImage}" th:src="${msg.linkImage}" style="width: 100%; height: auto;">
+								<div style="padding: 10px;">
+									<a th:href="${extractUrl(msg.content)}" target="_blank" style="text-decoration: none; color: #1d9bf0; font-weight: bold; font-size: 14px;">
+										<div th:text="${msg.linkTitle}">サイトタイトル</div>
+									</a>
+									<div th:if="${msg.linkDescription}" th:text="${msg.linkDescription}" style="font-size: 12px; color: #666;">
+										説明文
+									</div>
+								</div>
+							</div>
 				</div>
-				
 				<div class="message-status"
 					th:if="${msg.senderName == #authentication.name}"
 					style="align-self: flex-end; font-size: 10px; color: #888; margin: 0 5px; min-width: 40px;">
@@ -178,7 +188,6 @@
 						th:text="'既読' + ${msg.readByUsers.size()}">
 					</span>
 				</div>
-				
 					<div th:if="${msg.imageData}">
 						<img th:src="${msg.imageData}"
 						style="max-width: 200px; border-radius: 8px; margin-top: 5px; cursor:zoom-in;"
@@ -187,17 +196,7 @@
 				</div>
 			</div>
 		</div>
-		<div th:if="${msg.linkTitle}" style="margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-top: 5px; background: #f9f9f9;">
-			<img th:if="${msg.linkImage}" th:src="${msg.linkImage}" style="width: 100%; height: auto;">
-			<div style="padding: 10px;">
-				<a th:href="${extractUrl(msg.content)}" target="_blank" style="text-decoration: none; color: #1d9bf0; font-weight: bold; font-size: 14px;">
-					<div th:text="${msg.linkTitle}">サイトタイトル</div>
-				</a>
-				<div th:if="${msg.linkDescription}" th:text="${msg.linkDescription}" style="font-size: 12px; color: #666;">
-					説明文
-				</div>
-			</div>
-		</div>
+		
 		<div id="typing-indicator" style="font-size: 12px; color: #888; height: 20px; margin-bottom: 5px; padding-left: 10px;"></div>
 		<input type="text" id="messageInput" placeholder="メッセージを入力..." oninput="sendTyping()">
 		
@@ -241,6 +240,26 @@
 			function showMessage(payload){
 				var message = JSON.parse(payload);
 				var div = document.getElementById('messages');
+				
+				//入退室の処理
+				if(message.type === 'JOIN'){
+					addUserToList(message.senderName);
+					return;
+				} else if (message.type === 'LEAVE'){
+					removeUserFromList(message.senderName);
+					return;
+				}
+				
+				//入力中の処理
+				if(message.typing){
+					var indicator = document.getElementById('typing-indicator');
+					indicator.innerText = message.senderName + "　さんが入力中・・・";
+					
+					//3秒後に自動で消す
+					clearTimeout(typingTimeout);
+					typingTimeout = setTimeout(() => {indicator.innerText = "";}, 3000);
+					return;
+				}
 				
 				// 既存メッセージの既読更新通知だった場合
 				var existingStatus = document.getElementById('status-' + message.id);
@@ -286,7 +305,7 @@
 				iconDiv.className = 'user-icon';
 				//アイコンがあれば背景画像に設定、なければグレー
 				if(message.senderIcon){
-					iconDiv.style.vackgroundImage = 'url(' + message.senderIcon + ')';
+					iconDiv.style.backgroundImage = 'url(' + message.senderIcon + ')';
 				}else {
 					iconDiv.style.backgroundColor = '#ccc';
 				}
@@ -385,7 +404,7 @@
 				<div class="message-info">
 					<span>${message.senderName}</span>
 					<small style="margin-left:Spx;">${timeStr}</small>
-					${deleteStn}
+					${deleteBtn}
 				</div>
 				<div>${message.content || ''}</div>
 				${imageHTML}`;
@@ -406,7 +425,7 @@
 			
 			//showMessage関数での表示更新
 			function updateReactions(messageId, reactionCounts){
-				var container = document.querySelection(`#msg-${messageId} .reaction-container`);
+				var container = document.querySelector(`#msg-${messageId} .reaction-container`);
 				if(container){
 					let html = '';
 					for (const [emoji, count] of Object.entries(reactionCounts)){
@@ -424,27 +443,6 @@
 				stompClient.send("/app/typing", {}, JSON.stringify({typing: true}));
 			}
 			
-			//showMessage関数の中で受信した時の処理
-			function showMessage(payload){
-				var message = JSON.parse(payload);
-				
-				if(message.type === 'JOIN'){
-					addUserToList(message.senderName);
-				} else if (message.type === 'LEAVE'){
-					removeUserFromList(message.senderName);
-				}
-				
-				if(message.typing){
-					var indicator = document.getElementById('typing-indicator');
-					indicator.innerText = message.senderName + "　さんが入力中・・・";
-					
-					//3秒後に自動で消す
-					clearTimeout(typingTimeout);
-					typingTimeout = setTimeout(() => {indicator.innerText = "";}, 3000);
-					return;
-				}
-			}
-			
 			//検索
 			function searchMessages(){
 				const keyword = document.getElementById('searchInput').value;
@@ -454,8 +452,8 @@
 				fetch('/api/search?keyword=' + encodeURIComponent(keyword))
 					.then(response => response.json())
 					.then(results => {
-						const messageArea = document.getElemetnById('messages');
-						messageArea.innetHTML = ''; //一旦画面を真っ白にする
+						const messageArea = document.getElementById('messages');
+						messageArea.innerHTML = ''; //一旦画面を真っ白にする
 						
 						if (results.length === 0){
 							messageArea.innerHTML = '<p style="text-align:center; color:888;">見つかりませんでした</p>';
@@ -477,8 +475,8 @@
 				if(!document.getElementById('user-' + username)){
 					const li = document.createElement('li');
 					li.id = 'user-' + username;
-					list.innetText = '⚫ ︎ ' + username;
-					li.style.colr = 'green';
+					list.innerText = '⚫ ︎ ' + username;
+					li.style.color = 'green';
 					list.appendChild(li);
 				}
 			}
